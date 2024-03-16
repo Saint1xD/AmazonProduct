@@ -12,7 +12,7 @@ You need to run:
       
       npm install
 
-To make sure we will not get errors I recommend you running these commands one by one to install and update some libraries:
+To make sure we will get no errors I recommend you running these commands one by one to install and update some libraries:
 
       sudo apt-get update
 
