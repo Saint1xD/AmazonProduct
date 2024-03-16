@@ -16,13 +16,11 @@ To make sure we will not get errors I recommend you running these commands one b
 
       sudo apt-get update
 
+Then
 
-
-      
       sudo apt-get install -y libgbm-dev
 
-
-
+And the last library
       
       sudo apt-get install libxkbcommon-x11-0
 
