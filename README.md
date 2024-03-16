@@ -22,6 +22,6 @@ Then
       sudo apt-get install libxkbcommon-x11-0
 
 
-And to run the server you just need to type in your console:
+And to run the App you just need to type in your console:
 
       node index.js
