@@ -15,8 +15,10 @@ You need to run:
 To make sure we will not get errors I recommend you running these commands one by one to install and update some libraries:
 
       sudo apt-get update
+
       
       sudo apt-get install -y libgbm-dev
+
       
       sudo apt-get install libxkbcommon-x11-0
 
