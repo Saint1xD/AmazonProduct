@@ -19,11 +19,7 @@ To make sure we will not get errors I recommend you running these commands one b
 Then
 
       sudo apt-get install -y libgbm-dev
-
-And the last library
-      
       sudo apt-get install libxkbcommon-x11-0
-
 
 
 And to run the server you just need to type in your console:
