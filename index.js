@@ -1,6 +1,6 @@
 const puppeteer = require("puppeteer-extra");
 const AmazonCaptchaPlugin = require("@mihnea.dev/puppeteer-extra-amazon-captcha").default();
-const { prompt, debug } = require("./utils");
+const { prompt, debug } = require("./utils"); // Import prompt and debug functions from utils.js
 
 puppeteer.use(AmazonCaptchaPlugin);
 
@@ -13,16 +13,16 @@ const main = async () => {
   const navigationComplete = () => page.waitForNavigation({ waitUntil: "load" });
 
   console.log("Solving captcha...");
-  await page.goto("https://www.amazon.com/errors/validateCaptcha");
+  await page.goto("https://www.amazon.com/errors/validateCaptcha"); // Go to captcha page
   debug(page, "Goto Captcha URL");
 
   await page
     .waitForFunction(() => !window.location.href.includes("error"))
     .catch(() => {
-      throw new Error("Couldn't solve captcha, try again!");
+      throw new Error("Couldn't solve captcha, please try again!");
     });
   console.log("Captcha solved!");
-  await Promise.all([page.goto("https://amazon.com"), navigationComplete()]);
+  await Promise.all([page.goto("https://amazon.com"), navigationComplete()]); // Go to Amazon website
 
   console.log("Loading Amazon Website...");
   debug(page, "Goto URL");
@@ -31,11 +31,11 @@ const main = async () => {
     await page.waitForSelector("#nav-global-location-popover-link", {
       visible: true,
       timeout: 500,
-    });
+    }); // Wait for location popover link
     await page.click("#nav-global-location-popover-link");
   } catch (error) {
     console.error("Falha ao clicar no botão primeiro botão.", error);
-    await page.goto("https://amazon.com");
+    await page.goto("https://amazon.com"); // Go to Amazon website if it fails before
     await navigationComplete();
 
     debug(page, "Goto URL again if failed to click");
@@ -46,42 +46,42 @@ const main = async () => {
   }
   debug(page, "Click on location popover link");
 
-  await page.waitForSelector("#GLUXZipUpdateInput", { visible: true });
-  await page.type("#GLUXZipUpdateInput", "11001", { delay: 50 });
+  await page.waitForSelector("#GLUXZipUpdateInput", { visible: true }); // Wait for zip code input
+  await page.type("#GLUXZipUpdateInput", "11001", { delay: 50 }); // Type zip code
   debug(page, "Zip code typed");
 
-  await page.waitForSelector("#GLUXZipUpdate", { visible: true, timeout: 500 });
-  await page.click("#GLUXZipUpdate");
+  await page.waitForSelector("#GLUXZipUpdate", { visible: true, timeout: 2000 }); // Wait for update zip code button
+  await page.click("#GLUXZipUpdate"); // Click on update zip code button
   await page.waitForSelector(".a-popover-footer #GLUXConfirmClose", {
     visible: true,
-    timeout: 500,
+    timeout: 2500,
   });
   debug(page, "Update zip code button clicked");
 
-  await page.click(".a-popover-footer #GLUXConfirmClose");
+  await page.click(".a-popover-footer #GLUXConfirmClose"); // Close confirm dialog
   debug(page, "Closing confirm dialog");
 
-  await navigationComplete();
+  await navigationComplete(); // Wait for navigation to complete
   debug(page, "Wait for navigation complete");
 
   const keyword = await prompt("What is the product you want to search for?\n");
-  await page.waitForSelector("#twotabsearchtextbox");
-  await page.type("#twotabsearchtextbox", keyword);
+  await page.waitForSelector("#twotabsearchtextbox"); // Wait for search box
+  await page.type("#twotabsearchtextbox", keyword); // Type keyword in search box
   debug(page, `Write ${keyword} in search box`);
   console.log("Searching for '" + keyword + "'...");
 
-  await page.waitForSelector("#nav-search-submit-button");
-  await page.click("#nav-search-submit-button");
+  await page.waitForSelector("#nav-search-submit-button"); // Wait for search button
+  await page.click("#nav-search-submit-button"); // Click on search button
   debug(page, "Click on search button");
 
-  await navigationComplete();
+  await navigationComplete(); // Wait for navigation to complete
   debug(page, "Wait for navigation complete");
 
   await page.evaluate(() => {
     const firstNonSponsored = [...document.querySelectorAll('div[data-cy="title-recipe"]')].filter(
       (e) => !e.querySelector(".puis-sponsored-label-text")
     )[0];
-    firstNonSponsored.querySelector("a").click();
+    firstNonSponsored.querySelector("a").click(); // Click on first non-sponsored product
   });
 
   await navigationComplete();
