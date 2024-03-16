@@ -11,6 +11,17 @@ After cloning it and getting inside the folder using 'cd AmazonProduct'
 You need to run:
       
       npm install
-And to run the server you just need to type in your console:
+
+To make sure we will get no errors I recommend you running these commands one by one to install and update some libraries:
+
+      sudo apt-get update
+
+Then
+
+      sudo apt-get install -y libgbm-dev
+      sudo apt-get install libxkbcommon-x11-0
+
+
+And to run the App you just need to type in your console:
 
       node index.js
